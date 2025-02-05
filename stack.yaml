@@ -48,7 +48,8 @@ Resources:
     Properties:
       LogGroupName: !Join
         - '-'
-        - - !Ref apiGateway
+        - - 'api-gateway'
+          - !Ref apiGateway
           - access-logs
 
 
@@ -74,6 +75,21 @@ Resources:
       AccessLogSetting:
         DestinationArn: !GetAtt apiGatewayLogGroup.Arn
         Format: $context.extendedRequestId $context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] "$context.httpMethod $context.resourcePath $context.protocol" $context.status $context.responseLength $context.requestId
+        Format: !Join
+          - ','
+          - - "apiId: $context.apiId"
+            - "stage: $context.stage"
+            - "requestId: $context.requestId"
+            - "ip: $context.identity.sourceIp"
+            - "caller: $context.identity.caller"
+            - "user: $context.identity.user"
+            - "requestTime: $context.requestTimeEpoch"
+            - "httpMethod: $context.httpMethod"
+            - "resourcePath: $context.resourcePath"
+            - "status: $context.status"
+            - "protocol: $context.protocol"
+            - "responseLength: $context.responseLength"
+
 
   lambdaFunction:
     Type: AWS::Lambda::Function
