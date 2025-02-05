@@ -74,7 +74,7 @@ Resources:
           LoggingLevel: INFO
       AccessLogSetting:
         DestinationArn: !GetAtt apiGatewayLogGroup.Arn
-        Format: $context.extendedRequestId $context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] "$context.httpMethod $context.resourcePath $context.protocol" $context.status $context.responseLength $context.requestId
+        #Format: $context.extendedRequestId $context.identity.sourceIp $context.identity.caller $context.identity.user [$context.requestTime] "$context.httpMethod $context.resourcePath $context.protocol" $context.status $context.responseLength $context.requestId
         Format: !Join
           - ','
           - - "apiId: $context.apiId"
